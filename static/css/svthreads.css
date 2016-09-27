@@ -1,0 +1,26 @@
+#svthreads-ui-controls {
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 100;
+	width: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	text-align: center;
+}
+
+#svthreads-ui-controls * {
+	margin: 0.5em;
+}
+
+#svthreads-ui-controls input[type=checkbox] {
+	margin-right: 0;
+}
+
+#svthreads-ui-controls input[type=checkbox]+label {
+	margin-left: 0;
+}
+
+#svthreads-ui-controls button {
+	padding-left: 0.25em;
+	padding-right: 0.25em;
+}
