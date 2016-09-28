@@ -54,8 +54,11 @@ var svthreadsConfig = {};	//For debugging
 		hiddenNodes = [];
     };
 
-	var hidePosts = function(username) {
-		showAllPosts();
+	var findAuthorPosts = function(username, doFilter) {
+		//If doFilter is true, show author posts, and hide the rest
+		if (doFilter) {
+			showAllPosts();
+		}
 		
 		if (!username) {
 			username = storyAuthor;
@@ -67,11 +70,17 @@ var svthreadsConfig = {};	//For debugging
 			var nodeAuthor = $(this).data("author");
 			if(nodeAuthor !== username) {
 				hiddenNodes.push($(this));
-				$(this).hide();
+				if(doFilter) {
+					$(this).hide();
+				}
 			} else {
 				authorPosts.push($(this));
 			}
 		});
+	};
+	
+	var hidePosts = function(username) {
+		findAuthorPosts(username, true);
 	};
 	
 	var onFilterChange = function() {
@@ -122,15 +131,18 @@ var svthreadsConfig = {};	//For debugging
 			window.location.href = next.attr("href");
 		} else if (next.hasClass("currentPage")) {
 			//At last page, so stop
-			console.log("Finishing up");
-			finishBook();
+			if(state() === "compiling") {
+				console.log("Finishing up");
+				finishBook();
+			}
 		} else {
 			alert("Problem");
 		}
 	};
 	
 	var sendAuthorPosts = function() {
-		hidePosts();
+		findNextAuthorPost();
+		
 		var posts = authorPosts.map(function(p) {
 			return p.find("div.messageContent").html();
 		});
@@ -150,14 +162,8 @@ var svthreadsConfig = {};	//For debugging
 					lastChapter(data.lastChapter);
 					gotoNextPage();
 				},
-				error: function() {
-					alert("Error! Server not available.");
-				}
+				error: failedToCreateBook
 			});
-		} else {
-			console.log("No posts here. Go to next page");
-			gotoNextPage();
-			
 		}
 	};
 	
@@ -171,19 +177,38 @@ var svthreadsConfig = {};	//For debugging
 				if (data === "SUCCESS") {
 					console.log("Done. Go to server");
 				} else {
-					alert("Failed to create book.");
+					failedToCreateBook();
 				}
 			},
-			error: function() {
-				alert("Error! Server not available.");
-			}
+			error: failedToCreateBook
 		});
+	};
+	
+	var failedToCreateBook = function() {
+		state("reading");
+		alert("Failed to create book.");
+	};
+	
+	var findNextAuthorPost = function() {
+		findAuthorPosts();	//Get a list of author posts
+		if (!authorPosts || authorPosts.length == 0) {
+			console.log("No posts here, go to next.");
+			gotoNextPage();
+		}
 	};
 	
 	if (state() === "compiling") {
 		sendAuthorPosts();
 	}
 	
+	if (state() === "searching") {
+		findNextAuthorPost();
+	}
+	
 	$("#svthreads-start-book").click(startNewBook);
-	$("#svthreads-finish-book").click(finishBook);
+	//$("#svthreads-finish-book").click(finishBook);
+	$("#svthreads-next-author-post").click(function() {
+		state("searching");
+		gotoNextPage();
+	});
 })();
