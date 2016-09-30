@@ -7,7 +7,7 @@
 // ==/UserScript==
 
 var svthreads = {
-    serverURL: "http://192.168.1.215:8080"
+    serverURL: "http://ec2-52-39-251-210.us-west-2.compute.amazonaws.com"
 };
 
 (function(){

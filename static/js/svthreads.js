@@ -105,6 +105,7 @@ var svthreadsConfig = {};	//For debugging
 	
 	var startNewBook = function() {
 		state("compiling");
+		lastChapter(0);
 		
 		$.ajax({
             url: serverURL + "/start-new-book",
@@ -144,7 +145,7 @@ var svthreadsConfig = {};	//For debugging
 		findNextAuthorPost();
 		
 		var posts = authorPosts.map(function(p) {
-			return p.find("div.messageContent").html();
+			return p.find("div.messageContent article blockquote").html();
 		});
 		
 		if (posts && posts.length > 0) {
@@ -194,6 +195,9 @@ var svthreadsConfig = {};	//For debugging
 		if (!authorPosts || authorPosts.length == 0) {
 			console.log("No posts here, go to next.");
 			gotoNextPage();
+		} else if(state() == "searching") {
+			//Found posts here, cancel search
+			state("reading");
 		}
 	};
 	
