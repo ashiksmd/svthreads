@@ -3,6 +3,7 @@
 // @version    0.1
 // @description  Filter author posts on SB or SV threads
 // @include     /^https?://forums\.(spacebattles|sufficientvelocity)\.com/(threads|conversations)/.*$/
+// @downloadURL https://raw.githubusercontent.com/ashiksmd/svthreads/master/userscripts/SVThreads.js
 // @copyright  2012+, You
 // ==/UserScript==
 
