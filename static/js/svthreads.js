@@ -24,7 +24,7 @@ var svthreadsConfig = {};	//For debugging
 	};
 	
 	var lastChapter = function(chapter) {
-		if (!chapter) {
+		if (chapter == null) {
 			chapter = localStorage.getItem("svthreads.config.lastChapter"); 
 			if (chapter == null || chapter == "null") { chapter = 0; }
 		} else {
