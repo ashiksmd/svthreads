@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name       SpaceBattles Filter Author Posts
-// @version    0.1
+// @version    1.0
 // @description  Filter author posts on SB or SV threads
 // @include     /^https?://forums\.(spacebattles|sufficientvelocity)\.com/(threads|conversations)/.*$/
 // @downloadURL https://raw.githubusercontent.com/ashiksmd/svthreads/master/userscripts/SVThreads.js
